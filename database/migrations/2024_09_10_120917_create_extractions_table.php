@@ -13,9 +13,14 @@ return new class extends Migration
     {
         Schema::create('extractions', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('upload_id')->constrained()->cascadeOnDelete(); // uploadsテーブルのidを参照するカラム
+            $table->time('start'); 
+            $table->time('end'); 
             $table->timestamps();
         });
     }
+
+
 
     /**
      * Reverse the migrations.

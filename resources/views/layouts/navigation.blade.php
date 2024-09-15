@@ -17,12 +17,15 @@
                     </x-nav-link>
 
                     <!-- 🔽 2項目追加 -->
-          <x-nav-link :href="route('uploads.index')" :active="request()->routeIs('uploads.index')">
-            {{ __('Upload一覧') }}
-          </x-nav-link>
-          <x-nav-link :href="route('uploads.create')" :active="request()->routeIs('uploads.create')">
-            {{ __('Upload作成') }}
-          </x-nav-link>
+                    <x-nav-link :href="route('uploads.index')" :active="request()->routeIs('uploads.index')">
+                    {{ __('Upload一覧') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('uploads.create')" :active="request()->routeIs('uploads.create')">
+                    {{ __('Upload作成') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('extractions.index')" :active="request()->routeIs('extractions.index')">
+                    {{ __('抽出一覧') }}
+                    </x-nav-link>
                 </div>
             </div>
 
@@ -80,13 +83,17 @@
             </x-responsive-nav-link>
 
             <!-- 🔽 2項目追加 -->
-      <x-responsive-nav-link :href="route('uploads.index')" :active="request()->routeIs('uploads.index')">
-        {{ __('Upload一覧') }}
-      </x-responsive-nav-link>
-      <x-responsive-nav-link :href="route('uploads.create')" :active="request()->routeIs('uploads.create')">
-        {{ __('Upload作成') }}
-      </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('uploads.index')" :active="request()->routeIs('uploads.index')">
+            {{ __('Upload一覧') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('uploads.create')" :active="request()->routeIs('uploads.create')">
+            {{ __('Upload作成') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('extractions.index')" :active="request()->routeIs('extractions.index')">
+            {{ __('抽出一覧') }}
+            </x-responsive-nav-link>
         </div>
+        
 
         <!-- Responsive Settings Options -->
         <div class="pt-4 pb-1 border-t border-gray-200 dark:border-gray-600">

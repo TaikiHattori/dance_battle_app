@@ -15,8 +15,8 @@ class ExtractionController extends Controller
      */
     public function index()
     {
-        // 抽出結果を表示するための処理
-        return view('extractions.index');
+        $extractions = Extraction::with('upload')->get();
+        return view('extractions.index', compact('extractions'));
     }
 
     /**
@@ -46,7 +46,7 @@ class ExtractionController extends Controller
     $extraction->end = gmdate("H:i:s", $request->end_time); // 秒数を時:分:秒に変換
     $extraction->save();
 
-    return response()->json(['message' => 'Extraction data saved successfully.']);
+        return redirect()->route('extractions.index')->with('success', 'Extraction data saved successfully.');
     }
 
 

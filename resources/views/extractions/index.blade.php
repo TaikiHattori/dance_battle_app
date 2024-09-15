@@ -14,17 +14,15 @@
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
       <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
         <div class="p-6 text-gray-900 dark:text-gray-100">
-          @if(isset($extracted_files))
-            <div class="mb-4 p-4 bg-gray-100 dark:bg-gray-700 rounded-lg">
-              <p class="text-gray-800 dark:text-gray-300">{{ $extracted_files['file_name'] }}</p>
-              <audio controls>
-                <source src="{{ $extracted_files['url'] }}" type="audio/mpeg">
-                Your browser does not support the audio element.
-              </audio>
-            </div>
-          @else
-            <p>抽出されたファイルはありません。</p>
-          @endif
+          @foreach ($extractions as $extraction)
+          <div class="mb-4 p-4 bg-gray-100 dark:bg-gray-700 rounded-lg">
+            <p class="text-gray-800 dark:text-gray-300">タイトル: {{ $extraction->upload->title }}</p>
+            <p class="text-gray-600 dark:text-gray-400 text-sm">抽出開始: {{ $extraction->start }}</p>
+            <p class="text-gray-600 dark:text-gray-400 text-sm">抽出終了: {{ $extraction->end }}</p>
+
+
+          </div>
+          @endforeach
         </div>
       </div>
     </div>

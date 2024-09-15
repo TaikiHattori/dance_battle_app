@@ -45,7 +45,7 @@ class ExtractionController extends Controller
 //         $end_time = $request->end_time;
 //         $duration = $end_time - $start_time;
 
-// // 絶対パスから相対パスを抽出
+// 絶対パスから相対パスを抽出
 //         $absolute_url = $upload->mp3_url;
 //         $parsed_url = parse_url($absolute_url);
 //         $relative_path = ltrim($parsed_url['path'], '/');

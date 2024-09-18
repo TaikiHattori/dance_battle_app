@@ -40,4 +40,6 @@ Route::get('/extractions/create/{upload}', [ExtractionController::class, 'create
 Route::post('/extraction', [ExtractionController::class, 'store'])->name('extractions.store');
 Route::get('/extractions', [ExtractionController::class, 'index'])->name('extractions.index');
 
-Route::post('/playlist', [PlaylistController::class, 'store'])->name('playlists.store');
+
+Route::get('/playlists/create', [PlaylistController::class, 'create'])->name('playlists.create');
+Route::get('/playlist/play/{id}', [PlaylistController::class, 'play'])->name('playlists.play');

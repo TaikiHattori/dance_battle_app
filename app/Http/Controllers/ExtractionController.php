@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Upload; // ここでUploadモデルをインポート
+use App\Models\Upload;
 use App\Models\Extraction;
 use Illuminate\Http\Request;
 

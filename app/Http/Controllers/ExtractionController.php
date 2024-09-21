@@ -55,7 +55,8 @@ class ExtractionController extends Controller
      */
     public function show(Extraction $extraction)
     {
-        //
+        return view('extractions.show', compact('extraction'));
+
     }
 
     /**
@@ -79,6 +80,8 @@ class ExtractionController extends Controller
      */
     public function destroy(Extraction $extraction)
     {
-        //
+        $extraction->delete();
+
+    return redirect()->route('extractions.index');
     }
 }

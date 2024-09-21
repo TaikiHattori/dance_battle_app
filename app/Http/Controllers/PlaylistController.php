@@ -17,21 +17,6 @@ class PlaylistController extends Controller
         $extraction = Extraction::findOrFail($id);
         $upload = Upload::findOrFail($extraction->upload_id);
 
-        // データの取得
-        $start_seconds = strtotime($extraction->start) - strtotime('TODAY');
-        $end_seconds = strtotime($extraction->end) - strtotime('TODAY');
-        $duration_seconds = $end_seconds - $start_seconds;
-
- // サンプルレート、ビット深度、チャンネル数を設定
-        $sample_rate = 44100;  // 例: 44.1kHz
-        $bit_depth = 16;       // 例: 16ビット
-        $channels = 2;         // 例: ステレオ
-
-        // 秒数位置をバイト位置に変換
-        $start_bytes = $this->seconds_to_bytes($start_seconds, $sample_rate, $bit_depth, $channels);
-        $end_bytes = $this->seconds_to_bytes($end_seconds, $sample_rate, $bit_depth, $channels);
-
-
         // S3クライアントの設定
         $s3 = new S3Client([
             'version' => 'latest',
@@ -45,51 +30,32 @@ class PlaylistController extends Controller
         // オブジェクトの取得
         $bucket = config('filesystems.disks.s3.bucket');
         $key = ltrim(urldecode(parse_url($upload->mp3_url, PHP_URL_PATH)), '/');
-
-//dd($upload->mp3_url); きちんと取得できている
-//https://dance-battle1.s3.ap-northeast-3.amazonaws.com/01%20One%20More%20Time.mp3
+        $s3Url = $s3->getObjectUrl($bucket, $key);
 
 
- // オブジェクトのメタデータを取得してファイルサイズを確認
-        $headObject = $s3->headObject([
-            'Bucket' => $bucket,
-            'Key' => $key,
-        ]);
-        $file_size = $headObject['ContentLength'];
+        // FFmpegを使用して指定された範囲を抽出
+        $start_seconds = strtotime($extraction->start) - strtotime('TODAY');
+        $end_seconds = strtotime($extraction->end) - strtotime('TODAY');
+        $duration_seconds = $end_seconds - $start_seconds;
 
-        // リクエストする範囲がファイルサイズを超えないように調整
-        if ($end_bytes >= $file_size) {
-            $end_bytes = $file_size - 1;
-        }
 
-        
-        // ストリーミングレスポンスの作成
- $response = new StreamedResponse(function() use ($s3, $bucket, $key, $start_bytes, $end_bytes) {
-            $range = "bytes={$start_bytes}-{$end_bytes}";
+ // ストリーミングレスポンスの作成
+        $response = new StreamedResponse(function() use ($s3Url, $start_seconds, $duration_seconds) {
+            $ffmpegCommand = "ffmpeg -ss $start_seconds -t $duration_seconds -i \"$s3Url\" -f mp3 -";
+            passthru($ffmpegCommand);
+        });
 
-            $result = $s3->getObject([
-            'Bucket' => $bucket,
-            'Key' => $key,
-            'Range' => $range,
 
-        ]);
 
-         echo $result['Body'];
-            ob_flush();
-            flush();
-    });
-
+    
         $response->headers->set('Content-Type', 'audio/mpeg');
         $response->headers->set('Content-Disposition', 'inline; filename="extracted.mp3"');
 
         return $response;
     }
 
-    private function seconds_to_bytes($seconds, $sample_rate, $bit_depth, $channels) {
-        $bytes_per_sample = $bit_depth / 8;
-        $bytes_per_second = $sample_rate * $bytes_per_sample * $channels;
-        return intval($seconds * $bytes_per_second);
-    }
+    
+
 
     /**
      * Display a listing of the resource.
@@ -102,12 +68,12 @@ class PlaylistController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(Request $request)
     {
-        // 例として、最初のExtractionを取得
-    $extraction = Extraction::first();
-
-    return view('playlists.create', compact('extraction'));
+        //すべてのExtractionを取得
+        $extractions = Extraction::orderBy('id')->get();
+        
+        return view('playlists.create', compact('extractions'));
     }
 
     /**

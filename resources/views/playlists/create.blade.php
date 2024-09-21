@@ -15,19 +15,43 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
-                    <form action="{{ route('playlists.play', ['id' => $extraction->id]) }}" method="GET">
-                        @csrf
-                        
-                        
-                        @error('playlist')
-                        <span class="text-red-500 text-xs italic">{{ $message }}</span>
-                        @enderror
-                        <div class="mb-4">
-                            <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold  rounded-full w-20 h-20 flex items-center justify-center">
-                                再生
-                            </button>
-                        </div>
-                    </form>
+                    @if ($extractions->isEmpty())
+                        <p>再生可能なextractionがありません。</p>
+                    @else   
+                
+                        <audio id="audioPlayer" controls></audio>
+                    <script>
+                        document.addEventListener('DOMContentLoaded', function() {
+                        const extractions = @json($extractions);
+                        const audioPlayer = document.getElementById('audioPlayer');
+
+                        function shuffle(array) {
+                            for (let i = array.length - 1; i > 0; i--) {
+                            const j = Math.floor(Math.random() * (i + 1));
+                            [array[i], array[j]] = [array[j], array[i]];
+                            }
+                            return array;
+                            }
+
+                        const shuffledExtractions = shuffle(extractions);
+                        let currentIndex = 0;
+
+                        function playNext() {
+                            if (currentIndex < shuffledExtractions.length) {
+                            const extraction = shuffledExtractions[currentIndex];
+                            audioPlayer.src = `{{ url('/playlist/play') }}/${extraction.id}`;
+                            audioPlayer.play();
+                            currentIndex++;
+                            }
+                            }
+
+                        audioPlayer.addEventListener('ended', playNext);
+
+                        // 最初の再生を開始
+                        playNext();
+                        });
+                    </script>
+                    @endif
                 </div>
             </div>
         </div>

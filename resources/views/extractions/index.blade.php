@@ -19,6 +19,7 @@
             <p class="text-gray-800 dark:text-gray-300">タイトル: {{ $extraction->upload->title }}</p>
             <p class="text-gray-600 dark:text-gray-400 text-sm">抽出開始: {{ $extraction->start }}</p>
             <p class="text-gray-600 dark:text-gray-400 text-sm">抽出終了: {{ $extraction->end }}</p>
+            <a href="{{ route('extractions.show', $extraction) }}" class="text-blue-500 hover:text-blue-700">詳細を見る</a>
 
 
           </div>

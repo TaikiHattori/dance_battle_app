@@ -57,20 +57,39 @@
                         const shuffledExtractions = shuffle(extractions);
                         let currentIndex = 0;
                         let songDuration = 0; // songDuration をplayNext関数の外で定義(=グローバルスコープで定義する)
+                //let fadeOutTimeout; // fadeOutTimeout をグローバルスコープで定義
 
 
                         function fadeOut(audio, duration) {
-                            const step = audio.volume / (duration * 100);
-                            const fade = setInterval(() => {
-                            if (audio.volume > step) {
-                            audio.volume -= step;
-                            } else {
-                            clearInterval(fade);
-                            audio.volume = 0;
-                            playNext();
-                            }
-                            }, 10);
-                        }
+                  const step = audio.volume / (duration * 100);
+                  const fade = setInterval(() => {
+                    if (audio.volume > step) {
+                      audio.volume -= step;
+                    } else {
+                      clearInterval(fade);
+                      audio.volume = 0;
+                //if (callback) callback();
+                    playNext();
+
+                    }
+                  }, 10); // 10ミリ秒ごとに音量を減少させる
+                }
+
+
+
+
+                    function fadeIn(audio, duration) {
+                  audio.volume = 0;
+                  const step = 1 / (duration * 100);
+                  const fade = setInterval(() => {
+                    if (audio.volume < 1 - step) {
+                      audio.volume += step;
+                    } else {
+                      clearInterval(fade);
+                      audio.volume = 1;
+                    }
+                  }, 10); // 10ミリ秒ごとに音量を増加させる
+                }
 
 
                        
@@ -79,30 +98,47 @@
                             if (currentIndex < shuffledExtractions.length) {
                             const extraction = shuffledExtractions[currentIndex];
                             audioPlayer.src = `{{ url('/playlist/play') }}/${extraction.id}`;
-                            audioPlayer.volume = 1; // 次の曲の音量を最大に設定
+                            audioPlayer.volume = currentIndex === 0 ? 1 : 0; // 1曲目は音量を最大に設定、2曲目以降は0に設定（フェードイン用）
                             audioPlayer.play();
 
                             const endSeconds = timeToSeconds(extraction.end);
                             const startSeconds = timeToSeconds(extraction.start);
                             songDuration = endSeconds - startSeconds; // songDuration を更新
                         
-                        console.log('Extraction End:', extraction.end);
-                        console.log('Extraction Start:', extraction.start);
-                        console.log('endSeconds:', endSeconds);
-                        console.log('startSeconds:', startSeconds);
-                        console.log('songDuration:', songDuration);
+                        //console.log('Extraction End:', extraction.end);
+                        //console.log('Extraction Start:', extraction.start);
+                        //console.log('endSeconds:', endSeconds);
+                        //console.log('startSeconds:', startSeconds);
+                        //console.log('songDuration:', songDuration);
+
+                            if (currentIndex !== 0) {
+                            fadeIn(audioPlayer, fadeDuration); // 2曲目以降はフェードインを開始
+                            }
+
 
                             currentIndex++;
                             }
                         }
 
 
+                        //フェードアウトの要点
                         audioPlayer.addEventListener('play', () => {
                             fadeOutTimeout = setTimeout(() => fadeOut(audioPlayer, fadeDuration), (songDuration - fadeDuration) * 1000);
 
                         });
 
                     
+                // audioPlayer.addEventListener('timeupdate', () => {
+                //   if (audioPlayer.currentTime >= songDuration - fadeDuration) {
+                //     clearTimeout(fadeOutTimeout);
+                //     fadeOutTimeout = setTimeout(() => {
+                //       fadeOut(audioPlayer, fadeDuration);
+                //       playNext(); // フェードアウトと同時に次の曲を再生
+                //     }, (songDuration - audioPlayer.currentTime) * 1000);
+                //   }
+                // });
+
+
                         // ボタンがクリックされたときに再生を開始
                         playButton.addEventListener('click', () => {
                             playNext();

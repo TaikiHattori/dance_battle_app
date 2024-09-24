@@ -22,6 +22,11 @@
                         <audio id="audioPlayer" controls></audio>
                         <button id="playButton">再生</button>
 
+                        <!-- <audio id="audioPlayer1" controls></audio>
+                        <audio id="audioPlayer2" controls style="display:none;"></audio>
+                        <button id="playButton">再生</button> -->
+
+
 
                         <script>
                         document.addEventListener('DOMContentLoaded', function() {
@@ -29,6 +34,13 @@
                             const audioPlayer = document.getElementById('audioPlayer');
                             const playButton = document.getElementById('playButton');
                             const fadeDuration = 5; // フェードイン・フェードアウトの時間（秒）
+
+
+                            // const audioPlayer1 = document.getElementById('audioPlayer1');
+                            // const audioPlayer2 = document.getElementById('audioPlayer2');
+
+                            // let currentAudioPlayer = audioPlayer1;
+                            // let nextAudioPlayer = audioPlayer2;
 
 
                         function shuffle(array) {
@@ -57,7 +69,7 @@
                         const shuffledExtractions = shuffle(extractions);
                         let currentIndex = 0;
                         let songDuration = 0; // songDuration をplayNext関数の外で定義(=グローバルスコープで定義する)
-                //let fadeOutTimeout; // fadeOutTimeout をグローバルスコープで定義
+                      //let fadeOutTimeout; // fadeOutTimeout をグローバルスコープで定義
 
 
                         function fadeOut(audio, duration) {
@@ -101,6 +113,23 @@
                             audioPlayer.volume = currentIndex === 0 ? 1 : 0; // 1曲目は音量を最大に設定、2曲目以降は0に設定（フェードイン用）
                             audioPlayer.play();
 
+
+
+                          // function playNext() {
+                          //   if (currentIndex < shuffledExtractions.length) {
+                          //   const extraction = shuffledExtractions[currentIndex];
+                          //   nextAudioPlayer.src = `{{ url('/playlist/play') }}/${extraction.id}`;
+                          //   nextAudioPlayer.volume = 0; // 次の曲はフェードインで開始
+                            
+                          //   nextAudioPlayer.addEventListener('canplaythrough', function onCanPlayThrough() {
+                          //   nextAudioPlayer.removeEventListener('canplaythrough', onCanPlayThrough);
+                          //   nextAudioPlayer.play();
+                          //   fadeIn(nextAudioPlayer, fadeDuration); // フェードインを開始
+                          // });
+
+
+
+
                             const endSeconds = timeToSeconds(extraction.end);
                             const startSeconds = timeToSeconds(extraction.start);
                             songDuration = endSeconds - startSeconds; // songDuration を更新
@@ -139,6 +168,21 @@
                 // });
 
 
+
+                  // currentAudioPlayer.addEventListener('timeupdate', () => {
+                  //   if (currentAudioPlayer.currentTime >= songDuration - fadeDuration) {
+                  //   clearTimeout(fadeOutTimeout);
+                  //   fadeOutTimeout = setTimeout(() => {
+                  //     fadeOut(currentAudioPlayer, fadeDuration, () => {
+                  //       playNext(); // フェードアウトと同時に次の曲を再生
+                  //       // プレイヤーを切り替える
+                  //       [currentAudioPlayer, nextAudioPlayer] = [nextAudioPlayer, currentAudioPlayer];
+                  //     });
+                  //   }, (songDuration - currentAudioPlayer.currentTime) * 1000);
+                  // }
+                  // });
+
+
                         // ボタンがクリックされたときに再生を開始
                         playButton.addEventListener('click', () => {
                             playNext();
@@ -151,5 +195,4 @@
             </div>
         </div>
     </div>
-
 </x-app-layout>

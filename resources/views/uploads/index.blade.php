@@ -21,7 +21,7 @@
             <p class="text-gray-600 dark:text-gray-400 text-sm">投稿者: {{ $upload->user->name }}</p>
             <a href="{{ route('uploads.show', $upload) }}" class="text-blue-500 hover:text-blue-700">詳細を見る</a>
           
-            <a href="{{ route('extractions.create', $upload) }}" class="ml-4 text-blue-500 hover:text-blue-700">秒数指定</a>
+            <a href="{{ route('extractions.create', $upload) }}" class="ml-4 text-blue-500 hover:text-blue-700">抽出</a>
 
           </div>
           @endforeach

@@ -15,4 +15,9 @@ class Extraction extends Model
     {
         return $this->belongsTo(Upload::class);
     }
+
+    public function memos()
+  {
+    return $this->hasMany(Memo::class);
+  }
 }

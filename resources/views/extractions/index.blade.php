@@ -21,6 +21,8 @@
             <p class="text-gray-600 dark:text-gray-400 text-sm">抽出終了: {{ $extraction->end }}</p>
             <a href="{{ route('extractions.show', $extraction) }}" class="text-blue-500 hover:text-blue-700">詳細を見る</a>
 
+            <a href="{{ route('memos.create', $extraction) }}" class="ml-4 text-blue-500 hover:text-blue-700">メモ</a>
+
 
           </div>
           @endforeach

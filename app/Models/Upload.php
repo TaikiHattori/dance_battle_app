@@ -9,10 +9,7 @@ class Upload extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'title',
-        'mp3_url',
-      ];
+    protected $fillable = ['title','mp3_url',];
 
     public function user()
   {

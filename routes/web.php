@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UploadController;
 use App\Http\Controllers\ExtractionController;
 use App\Http\Controllers\PlaylistController;
+use App\Http\Controllers\MemoController;
 
 
 Route::get('/', function () {
@@ -45,3 +46,11 @@ Route::delete('/extractions/{extraction}', [ExtractionController::class, 'destro
 
 Route::get('/playlists/create', [PlaylistController::class, 'create'])->name('playlists.create');
 Route::get('/playlist/play/{id}', [PlaylistController::class, 'play'])->name('playlists.play');
+
+Route::get('/memos/create/{extraction}', [MemoController::class, 'create'])->name('memos.create');
+Route::post('/memos/{extraction}', [MemoController::class, 'store'])->name('memos.store');
+Route::get('/memos', [MemoController::class, 'index'])->name('memos.index');
+Route::get('/memos/{memo}', [MemoController::class, 'show'])->name('memos.show');
+Route::delete('/memos/{memo}', [MemoController::class, 'destroy'])->name('memos.destroy');
+Route::get('/memos/{memo}/edit', [MemoController::class, 'edit'])->name('memos.edit');
+Route::put('/memos/{extraction}', [MemoController::class, 'update'])->name('memos.update');

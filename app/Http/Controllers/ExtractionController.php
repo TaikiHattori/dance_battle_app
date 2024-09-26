@@ -6,6 +6,9 @@ use App\Models\Upload;
 use App\Models\Extraction;
 use Illuminate\Http\Request;
 
+// 🔽 追加
+use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Auth;
 
 
 class ExtractionController extends Controller

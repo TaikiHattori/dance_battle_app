@@ -5,9 +5,13 @@ namespace App\Http\Controllers;
 use App\Models\Upload;
 use Illuminate\Http\Request;
 
-
 use Aws\S3\S3Client;
 use Illuminate\Support\Facades\Storage;
+
+// 🔽 追加
+use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Auth;
+
 
 class UploadController extends Controller
 {
@@ -16,8 +20,9 @@ class UploadController extends Controller
      */
     public function index()
     {
-        // 🔽 追加
-    $uploads = Upload::with('user')->latest()->get();
+        
+    // 現在のユーザーのアップロードのみを取得
+        $uploads = Auth::user()->uploads;
     return view('uploads.index', compact('uploads'));
 
     }
@@ -28,6 +33,8 @@ class UploadController extends Controller
     public function create()
     {
       // 🔽 追加
+    Gate::authorize('create', Upload::class);
+        // 🔽 追加
     return view('uploads.create');
     }
 
@@ -36,6 +43,9 @@ class UploadController extends Controller
      */
     public function store(Request $request)
     {
+        // 🔽 追加
+    Gate::authorize('create', Upload::class);
+        
         $request->validate([
             'file' => 'required|mimes:mp3',
             
@@ -91,7 +101,10 @@ class UploadController extends Controller
      */
     public function show(Upload $upload)
     {
-            return view('uploads.show', compact('upload'));
+        // 🔽 追加
+    Gate::authorize('view', $upload);
+
+        return view('uploads.show', compact('upload'));
 
     }
 
@@ -116,6 +129,8 @@ class UploadController extends Controller
      */
     public function destroy(Upload $upload)
     {
+        // 🔽 追加
+    Gate::authorize('delete', $upload);
         $upload->delete();
 
     return redirect()->route('uploads.index');

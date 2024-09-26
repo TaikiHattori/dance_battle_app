@@ -19,8 +19,24 @@
                         <p>再生可能なextractionがありません。</p>
                     @else   
                 
-                        <audio id="audioPlayer" controls></audio>
-                        <button id="playButton">再生</button>
+                        <audio id="audioPlayer" controls ></audio>
+
+            <div class="flex justify-center items-center h-screen flex-col">
+              <!-- 再生バー -->
+              <div class="w-full max-w-xl bg-gray-300 rounded-full h-4 mb-4">
+                <div id="progressBar" class="bg-[#4EA1D5] h-4 rounded-full" style="width: 0%;"></div>
+              </div>
+
+              <!-- 再生ボタン -->
+              <button id="playButton" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full flex items-center justify-center w-32 h-32">
+                <svg class="w-16 h-16 fill-current text-white" viewBox="0 0 24 24">
+                  <polygon points="5,3 19,12 5,21" />
+                </svg>
+              </button>
+            </div>
+
+
+                        
 
                         <!-- <audio id="audioPlayer1" controls></audio>
                         <audio id="audioPlayer2" controls style="display:none;"></audio>
@@ -33,6 +49,7 @@
                             const extractions = @json($extractions);
                             const audioPlayer = document.getElementById('audioPlayer');
                             const playButton = document.getElementById('playButton');
+                            const progressBar = document.getElementById('progressBar');
                             const fadeDuration = 5; // フェードイン・フェードアウトの時間（秒）
 
 
@@ -181,6 +198,14 @@
                   //   }, (songDuration - currentAudioPlayer.currentTime) * 1000);
                   // }
                   // });
+
+// 再生バーの更新
+                audioPlayer.addEventListener('timeupdate', () => {
+                  const progress = (audioPlayer.currentTime / songDuration) * 100;
+                  progressBar.style.width = `${progress}%`;
+                });
+
+
 
 
                         // ボタンがクリックされたときに再生を開始

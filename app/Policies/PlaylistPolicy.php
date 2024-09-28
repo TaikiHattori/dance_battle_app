@@ -2,28 +2,26 @@
 
 namespace App\Policies;
 
-use App\Models\Extraction;
+use App\Models\Playlist;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
 
-class ExtractionPolicy
+class PlaylistPolicy
 {
     /**
      * Determine whether the user can view any models.
      */
     public function viewAny(User $user): bool
     {
-        // すべてのユーザーが自分の一覧を表示できるようにする
-        return true;
+        //
     }
 
     /**
      * Determine whether the user can view the model.
      */
-    public function view(User $user, Extraction $extraction): bool
+    public function view(User $user, Playlist $playlist): bool
     {
-        return true;
-
+        //
     }
 
     /**
@@ -31,14 +29,13 @@ class ExtractionPolicy
      */
     public function create(User $user): bool
     {
-        return true;
-
+        //
     }
 
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, Extraction $extraction): bool
+    public function update(User $user, Playlist $playlist): bool
     {
         //
     }
@@ -46,18 +43,15 @@ class ExtractionPolicy
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, Extraction $extraction): bool
+    public function delete(User $user, Playlist $playlist): bool
     {
-        // 🔽 追加
-    //return $user->id === $extraction->user_id;
-        return $user->id === $extraction->upload->user_id;
-
+        //
     }
 
     /**
      * Determine whether the user can restore the model.
      */
-    public function restore(User $user, Extraction $extraction): bool
+    public function restore(User $user, Playlist $playlist): bool
     {
         //
     }
@@ -65,7 +59,7 @@ class ExtractionPolicy
     /**
      * Determine whether the user can permanently delete the model.
      */
-    public function forceDelete(User $user, Extraction $extraction): bool
+    public function forceDelete(User $user, Playlist $playlist): bool
     {
         //
     }

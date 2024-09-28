@@ -23,6 +23,7 @@ class UploadController extends Controller
         
     // 現在のユーザーのアップロードのみを取得
         $uploads = Auth::user()->uploads;
+        //dd($uploads);//uploadsテーブルカラム全部を取得できてる
     return view('uploads.index', compact('uploads'));
 
     }

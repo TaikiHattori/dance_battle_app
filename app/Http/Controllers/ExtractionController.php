@@ -34,10 +34,15 @@ class ExtractionController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create($upload_id)
     {
         // 🔽 追加
     Gate::authorize('create', Extraction::class);
+        // ユーザーのアップロードを取得
+        
+        // upload_idからアップロードを取得
+        $upload = Upload::findOrFail($upload_id);
+        //dd($upload);
         
         return view('extractions.create', compact('upload'));
     }
@@ -72,9 +77,10 @@ class ExtractionController extends Controller
      */
     public function show(Extraction $extraction)
     {
-        // 🔽 追加
-    Gate::authorize('view', $extraction);
-        
+        // ポリシーを使用してアクセス制御
+        Gate::authorize('view', $extraction);
+        //dd($extraction);
+
         return view('extractions.show', compact('extraction'));
 
     }

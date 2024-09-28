@@ -22,7 +22,8 @@ class ExtractionPolicy
      */
     public function view(User $user, Extraction $extraction): bool
     {
-        return true;
+        // ユーザーが自分のアップロードに関連する抽出のみを表示できるようにする
+        return $user->id === $extraction->upload->user_id;
 
     }
 

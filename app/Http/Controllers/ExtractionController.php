@@ -18,15 +18,27 @@ class ExtractionController extends Controller
      */
     public function index()
     {
-        $extractions = Extraction::with('upload')->get();
+        // 🔽 追加
+        $uploads = Auth::user()->uploads;
+
+        // すべてのアップロードに関連するすべての抽出を取得
+        $extractions = $uploads->flatMap(function ($upload) {
+            return $upload->extractions;
+        });
+
+        //dd($extractions);
+        
         return view('extractions.index', compact('extractions'));
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create(Upload $upload)
+    public function create()
     {
+        // 🔽 追加
+    Gate::authorize('create', Extraction::class);
+        
         return view('extractions.create', compact('upload'));
     }
 
@@ -35,6 +47,8 @@ class ExtractionController extends Controller
      */
     public function store(Request $request)
     {
+// 🔽 追加
+    Gate::authorize('create', Extraction::class);
 
     $request->validate([
         'start_time' => 'required|integer',
@@ -58,6 +72,9 @@ class ExtractionController extends Controller
      */
     public function show(Extraction $extraction)
     {
+        // 🔽 追加
+    Gate::authorize('view', $extraction);
+        
         return view('extractions.show', compact('extraction'));
 
     }
@@ -83,6 +100,9 @@ class ExtractionController extends Controller
      */
     public function destroy(Extraction $extraction)
     {
+        // 🔽 追加
+    Gate::authorize('delete', $extraction);
+        
         $extraction->delete();
 
     return redirect()->route('extractions.index');

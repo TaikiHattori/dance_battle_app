@@ -37,7 +37,7 @@ require __DIR__.'/auth.php';
 Route::post('/upload', [UploadController::class, 'store'])->name('upload');
 Route::get('/uploads', [UploadController::class, 'index'])->name('uploads.index');
 
-Route::get('/extractions/create/{upload}', [ExtractionController::class, 'create'])->name('extractions.create');
+Route::get('/extractions/create/{upload_id}', [ExtractionController::class, 'create'])->name('extractions.create');
 Route::post('/extraction', [ExtractionController::class, 'store'])->name('extractions.store');
 Route::get('/extractions', [ExtractionController::class, 'index'])->name('extractions.index');
 Route::get('/extractions/{extraction}', [ExtractionController::class, 'show'])->name('extractions.show');

@@ -9,12 +9,21 @@ use Illuminate\Http\Request;
 use Aws\S3\S3Client;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
+use Illuminate\Support\Facades\Gate;
+
+
 class PlaylistController extends Controller
 {
     public function play($id)
     {
         // Extractionデータを取得
         $extraction = Extraction::findOrFail($id);
+
+        // アクセス制御
+        if (!Gate::allows('view', $extraction)) {
+            abort(403, 'Unauthorized action.');
+        }
+        
         $upload = Upload::findOrFail($extraction->upload_id);
 
         // S3クライアントの設定

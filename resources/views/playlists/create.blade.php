@@ -25,7 +25,7 @@
 
                 playButton.addEventListener('click', () => {
                   if (extractions.length > 0) {
-                    const extraction = extractions[0]; // 最初のextractionを使用
+                    const extraction = extractions[0]; // ここで曲変更/0=最初に抽出した曲
                     audioPlayer.src = `{{ url('/playlist/play') }}/${extraction.id}`;
                     audioPlayer.play();
                   }

@@ -45,7 +45,7 @@ Route::delete('/extractions/{extraction}', [ExtractionController::class, 'destro
 
 
 Route::get('/playlists/create', [PlaylistController::class, 'create'])->name('playlists.create');
-Route::get('/playlist/play/{filename}', [PlaylistController::class, 'play'])->name('playlists.play');
+Route::get('/playlist/play/{id}', [PlaylistController::class, 'play'])->name('playlists.play');
 
 Route::get('/memos/create/{extraction}', [MemoController::class, 'create'])->name('memos.create');
 Route::post('/memos/{extraction}', [MemoController::class, 'store'])->name('memos.store');

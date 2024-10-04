@@ -7,33 +7,27 @@ use App\Models\Extraction;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Log;
 
 
 class PlaylistController extends Controller
 {
-    public function play($id)
+    public function play($filename)
     {
-        $extraction = Extraction::findOrFail($id);
-
-        if (!Gate::allows('view', $extraction)) {
-            abort(403, 'Unauthorized action.');
-        }
-
-        $upload = Upload::findOrFail($extraction->upload_id);
-        $filePath = storage_path('app/public/uploads/' . basename($upload->mp3_url));
+        $filePath = storage_path('app/public/uploads/' . $filename);
 
         if (!file_exists($filePath)) {
             abort(404, 'File not found.');
         }
 
-        
-
         $response = new StreamedResponse(function() use ($filePath) {
-            readfile($filePath);
+            $stream = fopen($filePath, 'rb');
+            fpassthru($stream);
+            fclose($stream);
         });
 
         $response->headers->set('Content-Type', 'audio/mpeg');
-        $response->headers->set('Content-Disposition', 'inline; filename="' . basename($filePath) . '"');
+        $response->headers->set('Content-Disposition', 'inline; filename="' . $filename . '"');
 
         return $response;
     }

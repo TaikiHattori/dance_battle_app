@@ -9,22 +9,30 @@
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
       <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
         <div class="p-6 text-gray-900 dark:text-gray-100">
-          <audio id="audioPlayer" controls></audio>
-          <button id="playButton" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">
-            再生
-          </button>
+          @if ($extractions->isEmpty())
+            <p>再生可能なextractionがありません。</p>
+          @else
+            <audio id="audioPlayer" controls></audio>
+            <button id="playButton" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">
+              再生
+            </button>
 
-          <script>
-            document.addEventListener('DOMContentLoaded', function() {
-              const audioPlayer = document.getElementById('audioPlayer');
-              const playButton = document.getElementById('playButton');
+            <script>
+              document.addEventListener('DOMContentLoaded', function() {
+                const extractions = @json($extractions);
+                const audioPlayer = document.getElementById('audioPlayer');
+                const playButton = document.getElementById('playButton');
 
-              playButton.addEventListener('click', () => {
-                audioPlayer.src = `{{ url('/playlist/play/02 September.mp3') }}`;
-                audioPlayer.play();
+                playButton.addEventListener('click', () => {
+                  if (extractions.length > 0) {
+                    const extraction = extractions[0]; // 最初のextractionを使用
+                    audioPlayer.src = `{{ url('/playlist/play') }}/${extraction.id}`;
+                    audioPlayer.play();
+                  }
+                });
               });
-            });
-          </script>
+            </script>
+          @endif
         </div>
       </div>
     </div>

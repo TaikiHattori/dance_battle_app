@@ -13,22 +13,32 @@ use Illuminate\Support\Facades\Log;
 
 class PlaylistController extends Controller
 {
-    public function play($filename)
+    public function play($id)
     {
-        $filePath = storage_path('app/public/uploads/' . $filename);
+        $extraction = Extraction::findOrFail($id);
+
+        if (!Gate::allows('view', $extraction)) {
+            abort(403, 'Unauthorized action.');
+        }
+
+        $upload = Upload::findOrFail($extraction->upload_id);
+        $filePath = storage_path('app/public/uploads/' . basename($upload->mp3_url));
 
         if (!file_exists($filePath)) {
             abort(404, 'File not found.');
         }
 
-        $response = new StreamedResponse(function() use ($filePath) {
-            $stream = fopen($filePath, 'rb');
-            fpassthru($stream);
-            fclose($stream);
+        $start_seconds = strtotime($extraction->start) - strtotime('TODAY');
+        $end_seconds = strtotime($extraction->end) - strtotime('TODAY');
+        $duration_seconds = $end_seconds - $start_seconds;
+
+        $response = new StreamedResponse(function() use ($filePath, $start_seconds, $duration_seconds) {
+            $ffmpegCommand = "ffmpeg -ss $start_seconds -t $duration_seconds -i \"$filePath\" -f mp3 -";
+            passthru($ffmpegCommand);
         });
 
         $response->headers->set('Content-Type', 'audio/mpeg');
-        $response->headers->set('Content-Disposition', 'inline; filename="' . $filename . '"');
+        $response->headers->set('Content-Disposition', 'inline; filename="extracted.mp3"');
 
         return $response;
     }

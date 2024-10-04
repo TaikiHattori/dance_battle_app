@@ -8,8 +8,6 @@ use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 use Illuminate\Support\Facades\Gate;
 
-use Illuminate\Support\Facades\Log;
-
 
 class PlaylistController extends Controller
 {
@@ -28,17 +26,14 @@ class PlaylistController extends Controller
             abort(404, 'File not found.');
         }
 
-        $start_seconds = strtotime($extraction->start) - strtotime('TODAY');
-        $end_seconds = strtotime($extraction->end) - strtotime('TODAY');
-        $duration_seconds = $end_seconds - $start_seconds;
+        
 
-        $response = new StreamedResponse(function() use ($filePath, $start_seconds, $duration_seconds) {
-            $ffmpegCommand = "ffmpeg -ss $start_seconds -t $duration_seconds -i \"$filePath\" -f mp3 -";
-            passthru($ffmpegCommand);
+        $response = new StreamedResponse(function() use ($filePath) {
+            readfile($filePath);
         });
 
         $response->headers->set('Content-Type', 'audio/mpeg');
-        $response->headers->set('Content-Disposition', 'inline; filename="extracted.mp3"');
+        $response->headers->set('Content-Disposition', 'inline; filename="' . basename($filePath) . '"');
 
         return $response;
     }

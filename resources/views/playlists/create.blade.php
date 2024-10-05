@@ -16,6 +16,221 @@
 
           <script>
             document.addEventListener('DOMContentLoaded', function() {
+              const extractions = @json($extractions);
+              const audioPlayer = document.getElementById('audioPlayer');
+              const playButton = document.getElementById('playButton');
+              const fadeDuration = 5; // フェードイン・フェードアウトの時間（秒）
+
+              function timeToSeconds(time) {
+                const parts = time.split(':').map(part => parseInt(part, 10));
+                let seconds = 0;
+                if (parts.length === 3) {
+                  // 時:分:秒
+                  seconds = parts[0] * 3600 + parts[1] * 60 + parts[2];
+                } else if (parts.length === 2) {
+                  // 分:秒
+                  seconds = parts[0] * 60 + parts[1];
+                }
+                return seconds;
+              }
+
+              function fadeOut(audio, duration) {
+                const step = audio.volume / (duration * 100);
+                const fade = setInterval(() => {
+                  if (audio.volume > step) {
+                    audio.volume -= step;
+                  } else {
+                    clearInterval(fade);
+                    audio.volume = 0;
+                    audio.pause();
+                  }
+                }, 10); // 10ミリ秒ごとに音量を減少させる
+              }
+
+              function playNext() {
+                if (extractions.length > 0) {
+                  const extraction = extractions[0]; // 最初のextractionを使用
+                  const endSeconds = timeToSeconds(extraction.end); // 再生終了秒数
+                  const fadeOutStart = endSeconds - fadeDuration; // フェードアウト開始時間（秒）
+
+                 // extraction.upload.mp3_urlを使用して音声ファイルのURLを設定
+                  audioPlayer.src = extraction.upload.mp3_url;
+                  console.log(audioPlayer.src);
+
+                  audioPlayer.load(); // 追加: srcを設定した後にloadを呼び出す
+
+                  audioPlayer.onloadeddata = () => {
+                    audioPlayer.play().then(() => {
+                      // フェードアウトを開始するタイミングを設定
+                      const fadeOutTimeout = setTimeout(() => fadeOut(audioPlayer, fadeDuration), (fadeOutStart - audioPlayer.currentTime) * 1000);
+
+                      // 再生が終了したらタイマーをクリア
+                      audioPlayer.addEventListener('ended', () => {
+                        clearTimeout(fadeOutTimeout);
+                      });
+                    }).catch(error => {
+                      console.error('再生エラー:', error);
+                    });
+                  };
+                }
+              }
+
+              // ボタンがクリックされたときに再生を開始
+              playButton.addEventListener('click', () => {
+                playNext();
+              });
+            });
+          </script>
+
+
+
+
+
+
+          <!-- <script>//end指定フェードアウト＆DBからmp3_url取得して1曲再生：成功
+            document.addEventListener('DOMContentLoaded', function() {
+              const extractions = @json($extractions);
+              const audioPlayer = document.getElementById('audioPlayer');
+              const playButton = document.getElementById('playButton');
+              const fadeDuration = 5; // フェードイン・フェードアウトの時間（秒）
+
+              function timeToSeconds(time) {
+                const parts = time.split(':').map(part => parseInt(part, 10));
+                let seconds = 0;
+                if (parts.length === 3) {
+                  // 時:分:秒
+                  seconds = parts[0] * 3600 + parts[1] * 60 + parts[2];
+                } else if (parts.length === 2) {
+                  // 分:秒
+                  seconds = parts[0] * 60 + parts[1];
+                }
+                return seconds;
+              }
+
+              function fadeOut(audio, duration) {
+                const step = audio.volume / (duration * 100);
+                const fade = setInterval(() => {
+                  if (audio.volume > step) {
+                    audio.volume -= step;
+                  } else {
+                    clearInterval(fade);
+                    audio.volume = 0;
+                    audio.pause();
+                  }
+                }, 10); // 10ミリ秒ごとに音量を減少させる
+              }
+
+              function playNext() {
+                if (extractions.length > 0) {
+                  const extraction = extractions[0]; // 最初のextractionを使用
+                  const endSeconds = timeToSeconds(extraction.end); // 再生終了秒数
+                  const fadeOutStart = endSeconds - fadeDuration; // フェードアウト開始時間（秒）
+
+                 // extraction.upload.mp3_urlを使用して音声ファイルのURLを設定
+                  audioPlayer.src = extraction.upload.mp3_url;
+                  console.log(audioPlayer.src);
+
+                  audioPlayer.load(); // 追加: srcを設定した後にloadを呼び出す
+
+                  audioPlayer.onloadeddata = () => {
+                    audioPlayer.play().then(() => {
+                      // フェードアウトを開始するタイミングを設定
+                      const fadeOutTimeout = setTimeout(() => fadeOut(audioPlayer, fadeDuration), (fadeOutStart - audioPlayer.currentTime) * 1000);
+
+                      // 再生が終了したらタイマーをクリア
+                      audioPlayer.addEventListener('ended', () => {
+                        clearTimeout(fadeOutTimeout);
+                      });
+                    }).catch(error => {
+                      console.error('再生エラー:', error);
+                    });
+                  };
+                }
+              }
+
+              // ボタンがクリックされたときに再生を開始
+              playButton.addEventListener('click', () => {
+                playNext();
+              });
+            });
+          </script> -->
+
+
+
+
+
+
+
+          <!-- <script>//end指定フェードアウト：成功
+            document.addEventListener('DOMContentLoaded', function() {
+              const extractions = @json($extractions);
+              const audioPlayer = document.getElementById('audioPlayer');
+              const playButton = document.getElementById('playButton');
+              const fadeDuration = 5; // フェードイン・フェードアウトの時間（秒）
+
+              function timeToSeconds(time) {
+                const parts = time.split(':').map(part => parseInt(part, 10));
+                let seconds = 0;
+                if (parts.length === 3) {
+                  // 時:分:秒
+                  seconds = parts[0] * 3600 + parts[1] * 60 + parts[2];
+                } else if (parts.length === 2) {
+                  // 分:秒
+                  seconds = parts[0] * 60 + parts[1];
+                }
+                return seconds;
+              }
+
+              function fadeOut(audio, duration) {
+                const step = audio.volume / (duration * 100);
+                const fade = setInterval(() => {
+                  if (audio.volume > step) {
+                    audio.volume -= step;
+                  } else {
+                    clearInterval(fade);
+                    audio.volume = 0;
+                    audio.pause();
+                  }
+                }, 10); // 10ミリ秒ごとに音量を減少させる
+              }
+
+              function playNext() {
+                if (extractions.length > 0) {
+                  const extraction = extractions[0]; // 最初のextractionを使用
+                  const endSeconds = timeToSeconds(extraction.end); // 再生終了秒数
+                  const fadeOutStart = endSeconds - fadeDuration; // フェードアウト開始時間（秒）
+
+                  audioPlayer.src = `{{ url('/playlist/play/14 Shining Star.mp3') }}`;
+                  audioPlayer.load(); // 追加: srcを設定した後にloadを呼び出す
+
+                  audioPlayer.onloadeddata = () => {
+                    audioPlayer.play().then(() => {
+                      // フェードアウトを開始するタイミングを設定
+                      const fadeOutTimeout = setTimeout(() => fadeOut(audioPlayer, fadeDuration), (fadeOutStart - audioPlayer.currentTime) * 1000);
+
+                      // 再生が終了したらタイマーをクリア
+                      audioPlayer.addEventListener('ended', () => {
+                        clearTimeout(fadeOutTimeout);
+                      });
+                    }).catch(error => {
+                      console.error('再生エラー:', error);
+                    });
+                  };
+                }
+              }
+
+              // ボタンがクリックされたときに再生を開始
+              playButton.addEventListener('click', () => {
+                playNext();
+              });
+            });
+          </script> -->
+
+
+
+
+          <!-- <script>
+            document.addEventListener('DOMContentLoaded', function() {
               const audioPlayer = document.getElementById('audioPlayer');
               const playButton = document.getElementById('playButton');
 
@@ -37,11 +252,11 @@
                       audioPlayer.pause();
                     }
                   }, fadeOutInterval);
-                }, 5000); // 再生開始から5秒後にフェードアウトを開始
+                }, 5000); // 再生開始から5秒後にフェードアウトを開始:成功
 
               });
             });
-          </script>
+          </script> -->
         </div>
       </div>
     </div>

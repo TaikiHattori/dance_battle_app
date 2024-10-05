@@ -40,7 +40,8 @@ class PlaylistController extends Controller
     public function create(Request $request)
     {
         // リレーションを使用してextractionsと関連するuploadsを取得
-        $extractions = Extraction::with('upload')->orderBy('id')->get();
+        //$extractions = Extraction::with('upload')->orderBy('id')->get();
+        $extractions = Extraction::orderBy('id')->get();
 
         return view('playlists.create', compact('extractions'));
     }

@@ -20,7 +20,7 @@
               const audioPlayer = document.getElementById('audioPlayer');
               const playButton = document.getElementById('playButton');
               const fadeDuration = 5; // フェードイン・フェードアウトの時間（秒）
-
+            //end指定フェードアウトver.：ローカル成功
               function timeToSeconds(time) {
                 const parts = time.split(':').map(part => parseInt(part, 10));
                 let seconds = 0;
@@ -53,10 +53,7 @@
                   const endSeconds = timeToSeconds(extraction.end); // 再生終了秒数
                   const fadeOutStart = endSeconds - fadeDuration; // フェードアウト開始時間（秒）
 
-                 // extraction.upload.mp3_urlを使用して音声ファイルのURLを設定
-                  audioPlayer.src = extraction.upload.mp3_url;
-                  console.log(audioPlayer.src);
-
+                  audioPlayer.src = `{{ url('/playlist/play/14 Shining Star.mp3') }}`;
                   audioPlayer.load(); // 追加: srcを設定した後にloadを呼び出す
 
                   audioPlayer.onloadeddata = () => {
@@ -161,13 +158,13 @@
 
 
 
-          <!-- <script>//end指定フェードアウト：成功
+          <!-- <script>
             document.addEventListener('DOMContentLoaded', function() {
               const extractions = @json($extractions);
               const audioPlayer = document.getElementById('audioPlayer');
               const playButton = document.getElementById('playButton');
               const fadeDuration = 5; // フェードイン・フェードアウトの時間（秒）
-
+//end指定フェードアウト：成功
               function timeToSeconds(time) {
                 const parts = time.split(':').map(part => parseInt(part, 10));
                 let seconds = 0;

@@ -22,6 +22,23 @@
               playButton.addEventListener('click', () => {
                 audioPlayer.src = `{{ url('/playlist/play/14 Shining Star.mp3') }}`;
                 audioPlayer.play();
+
+              // 5秒後にフェードアウトを開始
+                setTimeout(() => {
+                  const fadeOutDuration = 5000; // フェードアウトの期間（ミリ秒）
+                  const fadeOutInterval = 50; // フェードアウトの間隔（ミリ秒）
+                  const fadeOutStep = audioPlayer.volume / (fadeOutDuration / fadeOutInterval);
+
+                  const fadeOut = setInterval(() => {
+                    if (audioPlayer.volume > 0) {
+                      audioPlayer.volume = Math.max(0, audioPlayer.volume - fadeOutStep);
+                    } else {
+                      clearInterval(fadeOut);
+                      audioPlayer.pause();
+                    }
+                  }, fadeOutInterval);
+                }, 5000); // 再生開始から5秒後にフェードアウトを開始
+
               });
             });
           </script>

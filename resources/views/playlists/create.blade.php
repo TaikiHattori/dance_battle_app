@@ -1,17 +1,63 @@
 <x-app-layout>
   <x-slot name="header">
-    <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+    <!-- <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
       {{ __('再生') }}
-    </h2>
+    </h2> -->
   </x-slot>
 
-  
+  <style>
+    html, body {
+      background-color: #121212; /* 背景色を黒っぽく */
+      color: #ffffff; /* テキスト色を白に */
+      margin: 0;
+      padding: 0;
+      height: 100%;
+    }
+
+    .bg-white {
+      background-color: #1f1f1f !important; /* カードの背景色を黒っぽく */
+    }
+
+    .text-gray-800, .text-gray-900, .dark\:text-gray-100 {
+      color: #ffffff !important; /* テキスト色を白に */
+    }
+
+    .dark\:bg-gray-800 {
+      background-color: #1f1f1f !important; /* ダークモードの背景色を黒っぽく */
+    }
+
+    .bg-blue-500 {
+      background-color: #333333 !important; /* ボタンの背景色を黒っぽく */
+    }
+
+    .hover\:bg-blue-700:hover {
+      background-color: #444444 !important; /* ボタンのホバー時の背景色を黒っぽく */
+    }
+
+    .text-white {
+      color: #ffffff !important; /* ボタンのテキスト色を白に */
+    }
+
+    .container {
+      min-height: 100vh; /* コンテナの高さを画面全体に */
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .py-12 {
+      background-color: #1f1f1f; /* py-12クラス（ヘッダーと中心の隙間ら辺）の背景色を黒っぽく */
+    }
+  </style>
+
+
    <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
                     @if ($extractions->isEmpty())
-                        <p>再生可能なextractionがありません。</p>
+                        <p>S3に曲が存在しません。</p>
                     @else   
                 
                         <audio id="audioPlayer" controls ></audio>

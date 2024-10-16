@@ -3,7 +3,17 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
             <div class="flex">
-                <!-- Logo -->
+                
+            <!-- botto_danceのロゴ -->
+                <div class="shrink-0 flex items-center">
+                    <a href="{{ route('playlists.create') }}">
+                        <img src="{{ asset('storage/images/botto_dance_logo7.png') }}" alt="Logo" class="logo-image" />
+                    </a>
+                </div>
+            
+            
+            
+                <!-- laravelのLogo -->
                 <!-- <div class="shrink-0 flex items-center">
                     <a href="{{ route('playlists.create') }}">
                         <x-application-logo class="block h-9 w-auto fill-current text-gray-800 dark:text-gray-200" />
@@ -123,3 +133,20 @@
         </div>
     </div>
 </nav>
+
+<style>
+    .logo-image {
+        height: 64px; /* 画像の高さを50pxに設定 */
+        width: auto; /* 幅は自動調整 */
+        border-radius: 50%;
+    }
+
+.border-indigo-400 {
+    --tw-border-opacity: 1;
+    border-color: #38b6ff;
+}
+    
+.border-b-2 {
+    border-bottom-width: 6px;
+}
+</style>

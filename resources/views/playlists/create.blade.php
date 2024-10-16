@@ -1,8 +1,8 @@
 <x-app-layout>
   <x-slot name="header">
-    <!-- <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+    <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
       {{ __('再生') }}
-    </h2> -->
+    </h2>
   </x-slot>
 
   <style>
@@ -60,13 +60,13 @@
                         <p>S3に曲が存在しません。</p>
                     @else   
                 
-                        <audio id="audioPlayer" controls ></audio>
+                        <audio id="audioPlayer"  ></audio>
 
             <div class="flex justify-center items-center h-screen flex-col">
               <!-- 再生バー -->
-              <!-- <div class="w-full max-w-xl bg-gray-300 rounded-full h-4 mb-4">
+              <div class="w-full max-w-xl bg-gray-300 rounded-full h-4 mb-4">
                 <div id="progressBar" class="bg-[#4EA1D5] h-4 rounded-full" style="width: 0%;"></div>
-              </div> -->
+              </div>
 
               <!-- 再生ボタン -->
               <button id="playButton" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full flex items-center justify-center w-32 h-32">
@@ -173,11 +173,11 @@
                         });
 
                     
-// 再生バーの更新
-                // audioPlayer.addEventListener('timeupdate', () => {
-                //   const progress = (audioPlayer.currentTime / songDuration) * 100;
-                //   progressBar.style.width = `${progress}%`;
-                // });
+                // 再生バーの更新
+                audioPlayer.addEventListener('timeupdate', () => {
+                  const progress = (audioPlayer.currentTime / songDuration) * 100;
+                  progressBar.style.width = `${progress}%`;
+                });
 
                         // ボタンがクリックされたときに再生を開始
                         playButton.addEventListener('click', () => {

@@ -83,6 +83,10 @@
     .border-white {
       border: 1px solid #ffffff !important; /* 枠線の色を白に設定 */
     }
+
+    input {
+      color: #000000; /* 入力フォームのテキスト色を黒に設定 */
+    }
   </style>
 
   <div class="py-12">

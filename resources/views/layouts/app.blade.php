@@ -15,7 +15,7 @@
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
 
-    <body class="h-screen font-sans antialiased bg-center bg-cover" style="background-image: url('{{ asset("images/星空4pakutaso.jpg") }}');">
+    <body class="font-sans antialiased bg-center bg-cover" style="background-image: url('{{ asset("images/星空4pakutaso.jpg") }}');">
         <div class="max-w-screen-lg m-auto">
             @include('layouts.navigation')
 

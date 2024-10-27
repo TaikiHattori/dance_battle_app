@@ -13,11 +13,9 @@
 
 <style>
     html, body {
-      background-color: #1f1f1f; /* 背景色を#1f1f1fに設定 */
       color: #ffffff; /* テキスト色を白に */
       margin: 0;
       padding: 0;
-      height: 100%;
     }
 
     .text-gray-800, .text-gray-900, .dark\:text-gray-100 {

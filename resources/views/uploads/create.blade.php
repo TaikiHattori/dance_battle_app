@@ -78,7 +78,7 @@
         <span class="text-red-500 text-xs italic">{{ $message }}</span>
         @enderror
 
-        <input id="dropzone-file" type="file" class="hidden" onchange="updateFileName(this)" />
+        <input id="dropzone-file" type="file" name="file" class="hidden" required onchange="updateFileName(this)" />
         <span id="file-name" class="text-white"></span> <!-- アップロードファイル名を表示するための要素 -->
 
     </label>

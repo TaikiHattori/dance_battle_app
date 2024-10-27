@@ -16,11 +16,6 @@
     .text-gray-800, .text-gray-900, .dark\:text-gray-100 {
       color: #ffffff !important; /* テキスト色を白に */
     }
-
-    .text-white {
-      color: #ffffff !important; /* ボタンのテキスト色を白に */
-    }
-
     .container {
       min-height: 100vh; /* コンテナの高さを画面全体に */
       display: flex;

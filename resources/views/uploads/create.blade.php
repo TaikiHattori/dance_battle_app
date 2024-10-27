@@ -26,9 +26,6 @@
     .bg-blue-500 {
       background-color: #333333 !important; /* ボタンの背景色を黒っぽく */
     }
-    .text-white {
-      color: #ffffff !important; /* ボタンのテキスト色を白に */
-    }
 
     .bg-gray-100 {
       background-color: #1f1f1f !important; /* 背景色を黒っぽく */

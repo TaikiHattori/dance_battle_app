@@ -32,10 +32,6 @@
       background-color: #444444 !important; /* ボタンのホバー時の背景色を#444444に設定 */
     }
 
-    .text-white {
-      color: #ffffff !important; /* ボタンのテキスト色を白に */
-    }
-
     .container {
       min-height: 100vh; /* コンテナの高さを画面全体に */
       display: flex;
@@ -88,7 +84,7 @@
 <div class="py-12 px-4">
 @foreach ($uploads as $upload)
 <div class="flex max-w-md mx-auto overflow-hidden rounded-lg shadow-lg mb-4" style="box-shadow: 0px 0px 30px 10px rgb(255 255 255 / 80%);">
-    <div class="w-1/3 bg-cover" style="background-image: url('{{ asset('images/tsuki.png') }}')"></div>
+    <div class="w-1/3 bg-no-repeat bg-contain bg-center" style="background-image: url('{{ asset('images/tsuki2.png') }}')"></div>
 
     <div class="w-2/3 p-4 md:p-4">
         <p class="text-xm font-bold text-white">{{ $upload->title }}</p>
@@ -103,4 +99,3 @@
 </div>
 
 </x-app-layout>
-

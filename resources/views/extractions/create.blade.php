@@ -29,10 +29,6 @@
       background-color: #444444 !important; /* ボタンのホバー時の背景色を#444444に設定 */
     }
 
-    .text-white {
-      color: #ffffff !important; /* ボタンのテキスト色を白に */
-    }
-
     .container {
       min-height: 100vh; /* コンテナの高さを画面全体に */
       display: flex;

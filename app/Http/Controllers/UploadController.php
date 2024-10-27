@@ -94,7 +94,7 @@ class UploadController extends Controller
                 'mp3_url' => $s3Url,
             ]);
 
-//dd($fileName); ファイル名取得できている
+            //dd($fileName); ファイル名取得できている
 
             return redirect()->route('uploads.index')->with('s3_url', $s3Url);
         } catch (AwsException $e) {

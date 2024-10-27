@@ -69,7 +69,7 @@
 
         <h2 class="mt-1 tracking-wide text-white dark:text-gray-200">Music files</h2>
 
-        <p class="mt-2 tracking-wide text-white dark:text-gray-400">Upload or darg & drop your file mp3. </p>
+        <p class="mt-2 tracking-wide text-white dark:text-gray-400">Upload your file mp3. </p>
 
         @error('upload')
         <span class="text-red-500 text-xs italic">{{ $message }}</span>

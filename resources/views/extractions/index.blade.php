@@ -87,8 +87,8 @@
     
         <div class="w-2/3 p-4 md:p-4">
             <p class="text-xm font-bold text-white">{{ $extraction->upload->title }}</p>
-            <p class="text-gray-400 text-sm">開始: {{ $extraction->start }}</p>
-            <p class="text-gray-400 text-sm">終了: {{ $extraction->end }}</p>
+            <p class="text-white text-sm">開始: {{ $extraction->start }}</p>
+            <p class="text-white text-sm">終了: {{ $extraction->end }}</p>
 
             <div class="flex justify-between mt-3 item-center">
                 <a href="{{ route('extractions.show', $extraction) }}" class="text-sm hover:text-gray-200">詳細を見る</a>
